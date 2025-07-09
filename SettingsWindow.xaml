@@ -1,0 +1,96 @@
+<Window x:Class="ImageCaption.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="AI解析設定" Height="500" Width="600"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="AI解析設定" FontSize="18" FontWeight="Bold" Margin="0,0,0,20"/>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <!-- Ollama サーバー設定 -->
+                <GroupBox Header="Ollama サーバー設定" Margin="0,0,0,15">
+                    <StackPanel Margin="10">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <TextBlock Text="サーバーURL:" Width="120" VerticalAlignment="Center"/>
+                            <TextBox Name="ServerUrlTextBox" Width="300" Height="25" Text="http://localhost:11434"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <TextBlock Text="接続テスト:" Width="120" VerticalAlignment="Center"/>
+                            <Button Name="TestConnectionButton" Content="接続テスト" Width="100" Height="25" Click="TestConnectionButton_Click"/>
+                            <TextBlock Name="ConnectionStatusTextBlock" Text="未テスト" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- モデル設定 -->
+                <GroupBox Header="モデル設定" Margin="0,0,0,15">
+                    <StackPanel Margin="10">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <TextBlock Text="使用モデル:" Width="120" VerticalAlignment="Center"/>
+                            <ComboBox Name="ModelComboBox" Width="200" Height="25" IsEditable="True"/>
+                            <Button Name="RefreshModelsButton" Content="更新" Width="60" Height="25" Margin="10,0,0,0" Click="RefreshModelsButton_Click"/>
+                        </StackPanel>
+                        <TextBlock Text="利用可能モデル:" Margin="0,0,0,5"/>
+                        <ListBox Name="AvailableModelsListBox" Height="80" Margin="0,0,0,10"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- プロンプト設定 -->
+                <GroupBox Header="プロンプト設定" Margin="0,0,0,15">
+                    <StackPanel Margin="10">
+                        <TextBlock Text="画像解析プロンプト:" Margin="0,0,0,5"/>
+                        <TextBox Name="PromptTextBox" Height="80" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"
+                                 Text="この画像を詳しく日本語で説明してください。画像に含まれる物体、人物、場所、色、雰囲気などを具体的に説明してください。"/>
+                        <Button Name="ResetPromptButton" Content="デフォルトに戻す" Width="120" Height="25" Margin="0,5,0,0" HorizontalAlignment="Left" Click="ResetPromptButton_Click"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- パフォーマンス設定 -->
+                <GroupBox Header="パフォーマンス設定" Margin="0,0,0,15">
+                    <StackPanel Margin="10">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <TextBlock Text="タイムアウト:" Width="120" VerticalAlignment="Center"/>
+                            <Slider Name="TimeoutSlider" Width="200" Minimum="30" Maximum="600" Value="300" IsSnapToTickEnabled="True" TickFrequency="30"/>
+                            <TextBlock Name="TimeoutValueTextBlock" Text="300秒" Width="50" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <TextBlock Text="同時処理数:" Width="120" VerticalAlignment="Center"/>
+                            <Slider Name="ConcurrencySlider" Width="200" Minimum="1" Maximum="5" Value="1" IsSnapToTickEnabled="True" TickFrequency="1"/>
+                            <TextBlock Name="ConcurrencyValueTextBlock" Text="1" Width="50" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- 出力設定 -->
+                <GroupBox Header="出力設定" Margin="0,0,0,15">
+                    <StackPanel Margin="10">
+                        <CheckBox Name="SaveResultsCheckBox" Content="解析結果をファイルに保存" Margin="0,0,0,10"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <TextBlock Text="保存形式:" Width="120" VerticalAlignment="Center"/>
+                            <ComboBox Name="SaveFormatComboBox" Width="150" Height="25" SelectedIndex="0">
+                                <ComboBoxItem Content="JSON"/>
+                                <ComboBoxItem Content="CSV"/>
+                                <ComboBoxItem Content="TXT"/>
+                            </ComboBox>
+                        </StackPanel>
+                        <CheckBox Name="IncludeTimestampCheckBox" Content="タイムスタンプを含める" Margin="0,0,0,10"/>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- ボタン -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button Name="SaveButton" Content="保存" Width="80" Height="30" Margin="0,0,10,0" Click="SaveButton_Click"/>
+            <Button Name="CancelButton" Content="キャンセル" Width="80" Height="30" Click="CancelButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
